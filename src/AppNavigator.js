@@ -6,6 +6,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NfcProvider } from "./context/NfcContext";
 import HomeScreen from "./screens/HomeScreen";
 import WriteTagScreen from "./screens/WriteTagScreen";
+import VehicleRegistrationScreen from "./screens/VehicleRegistrationScreen";
+import UserRegistrationScreen from "./screens/UserRegistrationScreen";
+import VideoStreamScreen from "./screens/VideoStreamScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +28,30 @@ function AppNavigator() {
             component={WriteTagScreen}
             options={{
               headerTitle: "Creative Portal URL Set",
+              headerTitleAlign: "center",
+            }}
+          />
+          <Stack.Screen
+            name="UserRegistration"
+            component={UserRegistrationScreen}
+            options={{
+              headerTitle: "Creative Portal URL Set",
+              headerTitleAlign: "center",
+            }}
+          />
+          <Stack.Screen
+            name="VehicleRegistration"
+            component={VehicleRegistrationScreen}
+            options={{
+              headerTitle: "Creative Portal URL Set",
+              headerTitleAlign: "center",
+            }}
+          />
+          <Stack.Screen
+            name="VideoStream"
+            component={VideoStreamScreen}
+            options={{
+              headerTitle: "Stram Video",
               headerTitleAlign: "center",
             }}
           />
