@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "nfcWritter",
+    "slug": "nfcWritter",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": ["android.permission.nfc", "android.permission.NFC"],
+      "package": "com.munif.nfcWritter"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": ["react-native-nfc-manager"],
+    "extra": {
+      "eas": {
+        "projectId": "ee5dd66a-9dd8-4596-8d19-7eee2edcb8dd"
+      }
+    },
+    "owner": "munif42"
+  }
+}
