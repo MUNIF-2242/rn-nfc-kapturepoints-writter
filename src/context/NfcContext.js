@@ -49,10 +49,12 @@ export const NfcProvider = ({ children }) => {
       }
 
       await NfcManager.requestTechnology(NfcTech.NfcA);
-      await ensurePasswordProtection();
+      //await ensurePasswordProtection();
       const userIdBytes = await writeUserId("64e7a2cbb3ef6b1a77f9d0c3");
 
-      await writeSignature(userIdBytes);
+      console.log("userIdBytes: ", userIdBytes);
+
+      //await writeSignature(userIdBytes);
       alert("NFC written successfully!");
     } catch (ex) {
       console.log("Error writing NFC: ", ex);
