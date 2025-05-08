@@ -16,7 +16,9 @@ function HomeScreen({ navigation }) {
         <TouchableOpacity
           style={[styles.circleButton, { backgroundColor: "#E74C3C" }]}
           onPress={() => navigation.navigate("Write")}
-        ></TouchableOpacity>
+        >
+          <Text style={[styles.circleText, { color: "#333" }]}>Format</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={[
@@ -30,13 +32,15 @@ function HomeScreen({ navigation }) {
           ]}
           onPress={() => navigation.navigate("UserRegistration")}
         >
-          <Text style={[styles.circleText, { color: "#333" }]}>Start</Text>
+          <Text style={[styles.circleText, { color: "#333" }]}>Read</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.circleButton, { backgroundColor: "#2ECC71" }]}
           onPress={() => navigation.navigate("VehicleRegistration")}
-        ></TouchableOpacity>
+        >
+          <Text style={[styles.circleText, { color: "#333" }]}>Write</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

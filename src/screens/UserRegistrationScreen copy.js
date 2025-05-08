@@ -1,55 +1,53 @@
-import React, { useContext, useRef } from "react";
-import { View, StyleSheet, SafeAreaView, Text } from "react-native";
-
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { View, StyleSheet, SafeAreaView, Text, ScrollView } from "react-native";
+import { Button, TextInput, Menu } from "react-native-paper";
 import NfcManager from "react-native-nfc-manager";
 import AndroidPrompt from "../components/AndroidPrompt";
 import { NfcContext } from "../context/NfcContext";
 
+import {
+  industryDropdownOptions,
+  professionDropdownOptions,
+} from "../data/dropdownOptions";
 import { TouchableOpacity } from "react-native";
-import { TextInput } from "react-native-paper";
 
-function WriteTagScreen() {
+function UserRegistrationScreen({ navigation }) {
   const androidPromptRef = useRef();
-  const { handleWriteTag, handleReadTag, handleFormatTag } =
-    useContext(NfcContext);
   const { value, setValue } = useContext(NfcContext);
+
+  const [customProfession, setCustomProfession] = useState("");
+
   return (
     <>
       <SafeAreaView />
-      <View style={[styles.pad]}>
-        <Text style={styles.label}>Name</Text>
-        <TextInput
-          value={value}
-          onChangeText={setValue}
-          style={styles.input}
-          placeholder="Enter creative name"
-        />
-      </View>
       <View style={styles.wrapper}>
+        <View style={[styles.wrapper, styles.pad]}>
+          <Text style={styles.label}>Name</Text>
+          <TextInput
+            value={value}
+            onChangeText={setValue}
+            style={styles.input}
+            placeholder="Enter creative name"
+          />
+        </View>
+
         <TouchableOpacity
           style={styles.readyButton}
-          onPress={() => handleFormatTag(androidPromptRef)}
+          onPress={() => navigation.navigate("VideoStream")}
           activeOpacity={0.7}
         >
-          <Text style={styles.readyButtonText}>Format memory</Text>
+          <Text style={styles.readyButtonText}>Stream Video</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity
+
+        <TouchableOpacity
           style={styles.readyButton}
-          onPress={() => handleWriteTag(androidPromptRef)}
+          onPress={() => handleWriteNdef(androidPromptRef, customProfession)}
           activeOpacity={0.7}
         >
           <Text style={styles.readyButtonText}>
             Ready to Write? Click Here!
           </Text>
-        </TouchableOpacity> */}
-
-        {/* <TouchableOpacity
-          style={styles.readyButton}
-          onPress={() => handleReadTag(androidPromptRef)}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.readyButtonText}>Ready to Read? Click Here!</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
         <AndroidPrompt
           ref={androidPromptRef}
           onCancelProps={() => {
@@ -66,7 +64,6 @@ function WriteTagScreen() {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    justifyContent: "center",
   },
   pad: {
     padding: 20,
@@ -120,4 +117,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WriteTagScreen;
+export default UserRegistrationScreen;

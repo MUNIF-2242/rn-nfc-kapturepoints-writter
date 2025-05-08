@@ -7,6 +7,9 @@ import writeSignature from "../utils/nfcUtils/writeSignature";
 import ensurePasswordProtection from "../utils/nfcUtils/ensurePasswordProtection";
 import readUserId from "../utils/nfcUtils/readUserId";
 import verifySignature from "../utils/nfcUtils/verifySignature";
+import writeTagId from "../utils/nfcUtils/writeTagId";
+import formatTagMemory from "../utils/nfcUtils/formatTagMemory";
+import readTagId from "../utils/nfcUtils/readTagId";
 
 export const NfcContext = createContext();
 
@@ -41,6 +44,40 @@ export const NfcProvider = ({ children }) => {
       console.warn("androidPromptRef is not defined.");
     }
   };
+  const handleFormatTag = async (androidPromptRef) => {
+    if (androidPromptRef && androidPromptRef.current) {
+      try {
+        await formatTag(androidPromptRef);
+      } catch (error) {
+        console.error("Error writing NFC: ", error);
+      }
+    } else {
+      console.warn("androidPromptRef is not defined.");
+    }
+  };
+  const formatTag = async (androidPromptRef) => {
+    console.log("Formatting NFC tag...");
+    try {
+      if (Platform.OS === "android") {
+        androidPromptRef.current.setVisible(true);
+      }
+
+      await NfcManager.requestTechnology(NfcTech.NfcA);
+      //await ensurePasswordProtection();
+
+      const userIdBytes = await formatTagMemory();
+      console.log("userIdBytes: ", userIdBytes);
+
+      alert("NFC formatted successfully!");
+    } catch (ex) {
+      console.log("Error writing NFC: ", ex);
+    } finally {
+      NfcManager.cancelTechnologyRequest();
+      if (Platform.OS === "android") {
+        androidPromptRef.current.setVisible(false);
+      }
+    }
+  };
   const writeTag = async (androidPromptRef) => {
     console.log("Writing NFC tag...");
     try {
@@ -49,10 +86,12 @@ export const NfcProvider = ({ children }) => {
       }
 
       await NfcManager.requestTechnology(NfcTech.NfcA);
-      await ensurePasswordProtection();
-      const userIdBytes = await writeUserId("64e7a2cbb3ef6b1a77f9d0c3");
+      //await ensurePasswordProtection();
 
-      await writeSignature(userIdBytes);
+      const userIdBytes = await writeTagId();
+      console.log("userIdBytes: ", userIdBytes);
+
+      //await writeSignature(userIdBytes);
       alert("NFC written successfully!");
     } catch (ex) {
       console.log("Error writing NFC: ", ex);
@@ -72,13 +111,13 @@ export const NfcProvider = ({ children }) => {
 
       await NfcManager.requestTechnology(NfcTech.NfcA);
 
-      const { userId, rawBytes } = await readUserId();
+      const { tagId, rawBytes } = await readTagId();
 
-      console.log("userId: ", userId);
+      console.log("TagId: ", tagId);
       console.log("rawBytes: ", rawBytes);
 
-      const result = await verifySignature(rawBytes);
-      console.log("Verification Result: ", result);
+      //const result = await verifySignature(rawBytes);
+      //console.log("Verification Result: ", result);
 
       alert("NFC Read successfully!");
     } catch (ex) {
@@ -100,6 +139,7 @@ export const NfcProvider = ({ children }) => {
         writeTag,
         handleWriteTag,
         handleReadTag,
+        handleFormatTag,
       }}
     >
       {children}

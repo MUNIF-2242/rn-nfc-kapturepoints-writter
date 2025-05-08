@@ -1,53 +1,47 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { View, StyleSheet, SafeAreaView, Text, ScrollView } from "react-native";
-import { Button, TextInput, Menu } from "react-native-paper";
+import React, { useContext, useRef } from "react";
+import { View, StyleSheet, SafeAreaView, Text } from "react-native";
+
 import NfcManager from "react-native-nfc-manager";
 import AndroidPrompt from "../components/AndroidPrompt";
 import { NfcContext } from "../context/NfcContext";
 
-import {
-  industryDropdownOptions,
-  professionDropdownOptions,
-} from "../data/dropdownOptions";
 import { TouchableOpacity } from "react-native";
+import { TextInput } from "react-native-paper";
 
-function UserRegistrationScreen({ navigation }) {
+function UserRegistrationScreen() {
   const androidPromptRef = useRef();
-  const { value, setValue } = useContext(NfcContext);
-
-  const [customProfession, setCustomProfession] = useState("");
+  const { handleWriteTag, handleReadTag, handleFormatTag } =
+    useContext(NfcContext);
 
   return (
     <>
       <SafeAreaView />
-      <View style={styles.wrapper}>
-        <View style={[styles.wrapper, styles.pad]}>
-          <Text style={styles.label}>Name</Text>
-          <TextInput
-            value={value}
-            onChangeText={setValue}
-            style={styles.input}
-            placeholder="Enter creative name"
-          />
-        </View>
 
+      <View style={styles.wrapper}>
         <TouchableOpacity
           style={styles.readyButton}
-          onPress={() => navigation.navigate("VideoStream")}
+          onPress={() => handleReadTag(androidPromptRef)}
           activeOpacity={0.7}
         >
-          <Text style={styles.readyButtonText}>Stream Video</Text>
+          <Text style={styles.readyButtonText}>Ready to Read? Click Here!</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.readyButton}
-          onPress={() => handleWriteNdef(androidPromptRef, customProfession)}
+          onPress={() => handleWriteTag(androidPromptRef)}
           activeOpacity={0.7}
         >
           <Text style={styles.readyButtonText}>
             Ready to Write? Click Here!
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+
+        {/* <TouchableOpacity
+          style={styles.readyButton}
+          onPress={() => handleReadTag(androidPromptRef)}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.readyButtonText}>Ready to Read? Click Here!</Text>
+        </TouchableOpacity> */}
         <AndroidPrompt
           ref={androidPromptRef}
           onCancelProps={() => {
@@ -64,6 +58,7 @@ function UserRegistrationScreen({ navigation }) {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
+    justifyContent: "center",
   },
   pad: {
     padding: 20,
