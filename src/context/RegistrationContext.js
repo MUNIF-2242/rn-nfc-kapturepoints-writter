@@ -5,16 +5,16 @@ import { Alert } from "react-native";
 export const RegistrationContext = createContext();
 
 export const RegistrationProvider = ({ children }) => {
-  const [nidImage, setNidImage] = useState(null);
+  const [licenseImage, setLicenseImage] = useState(null);
 
-  const [nidFaceDetectResult, setNidFaceDetectResult] = useState("");
+  const [licenseFaceDetectResult, setLicenseFaceDetectResult] = useState("");
 
-  const [nidLoading, setNidLoading] = useState(false);
+  const [licenseLoading, setLicenseLoading] = useState(false);
   const [licenseData, setLicenseData] = useState(false);
 
   const BASE_URL = "http://192.168.0.236:3000";
 
-  const pickNid = async () => {
+  const pickLicense = async () => {
     console.log("Upload License image");
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
@@ -32,16 +32,16 @@ export const RegistrationProvider = ({ children }) => {
     });
 
     if (!result.canceled) {
-      setNidImage(result.assets[0].uri);
-      uploadNid(result.assets[0].base64);
+      setLicenseImage(result.assets[0].uri);
+      uploadLicense(result.assets[0].base64);
     }
   };
 
-  const uploadNid = async (base64Image) => {
-    setNidLoading(true);
-    setNidFaceDetectResult("");
+  const uploadLicense = async (base64Image) => {
+    setLicenseLoading(true);
+    setLicenseFaceDetectResult("");
     try {
-      const response = await fetch(`${BASE_URL}/api/uploads/upload-nid`, {
+      const response = await fetch(`${BASE_URL}/api/uploads/upload-license`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,24 +50,24 @@ export const RegistrationProvider = ({ children }) => {
       });
 
       const data = await response.json();
-      console.log("NID upload response: ", data);
+      console.log("License upload response: ", data);
       if (data.imageUrl) {
-        //setNidUrl(data.imageUrl);
+        //setLicenseUrl(data.imageUrl);
 
         console.log("fileName...... ", data.fileName);
         detectText(data.fileName);
-        whatIsMyTagNumber(0);
+
         Alert.alert(
           "License card uploaded successfully!",
-          `NID URL: ${data.imageUrl}`
+          `License URL: ${data.imageUrl}`
         );
       } else {
-        Alert.alert("Failed to upload NID", `Error: ${data.message}`);
+        Alert.alert("Failed to upload License", `Error: ${data.message}`);
       }
     } catch (error) {
       Alert.alert("An error occurred", error.message);
     } finally {
-      setNidLoading(false);
+      setLicenseLoading(false);
     }
   };
 
@@ -110,6 +110,7 @@ export const RegistrationProvider = ({ children }) => {
   const handleActivateCard = async () => {
     console.log("Activate card");
     console.log("ALu: ", licenseData);
+    whatIsMyTagNumber(0);
     try {
       const response = await fetch(`${BASE_URL}/api/users/get-user/${0}`);
       const data = await response.json();
@@ -132,6 +133,7 @@ export const RegistrationProvider = ({ children }) => {
           licenseExpirationDate: parsedLicenseData.licenseExpirationDate,
           isLicenseDateValid: parsedLicenseData.isLicenseDateValid,
           balance: 800,
+          isCardActivated: true,
         };
 
         console.log("License payload: @@@@@@@@@@@@", licensePayload);
@@ -201,8 +203,8 @@ export const RegistrationProvider = ({ children }) => {
   return (
     <RegistrationContext.Provider
       value={{
-        pickNid,
-        nidImage,
+        pickLicense,
+        licenseImage,
         licenseData,
         handleActivateCard,
       }}

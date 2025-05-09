@@ -14,17 +14,16 @@ import { RegistrationContext } from "../context/RegistrationContext";
 
 function VehicleRegistrationScreen() {
   const androidPromptRef = useRef();
-  const [nidLoading, setNidLoading] = useState(false);
+  const [licenseLoading, setLicenseLoading] = useState(false);
 
   const { handleWriteTag } = useContext(NfcContext);
 
-  const { pickNid, nidImage, licenseData, handleActivateCard } =
+  const { pickLicense, licenseImage, licenseData, handleActivateCard } =
     useContext(RegistrationContext);
 
   console.log("licenseData......... ", licenseData);
   return (
     <>
-      <SafeAreaView />
       <View style={[styles.pad]}>
         <TouchableOpacity
           style={styles.readyButton}
@@ -36,27 +35,27 @@ function VehicleRegistrationScreen() {
         <Text style={styles.label}>License image</Text>
 
         <View style={styles.widePlaceholderContainer}>
-          {/* {nidLoading && <CustomActivityIndicator />} */}
-          {nidImage ? (
-            <CustomImage source={{ uri: nidImage }} />
+          {/* {licenseLoading && <CustomActivityIndicator />} */}
+          {licenseImage ? (
+            <CustomImage source={{ uri: licenseImage }} />
           ) : (
-            !nidLoading && <PlaceholderImage />
+            !licenseLoading && <PlaceholderImage />
           )}
         </View>
-        {/* {nidFaceDetectResult === "error" && !nidLoading && (
-          <Text style={styles.errorMessage}>Please upload valid NID image</Text>
+        {/* {licenseFaceDetectResult === "error" && !licenseLoading && (
+          <Text style={styles.errorMessage}>Please upload valid License image</Text>
         )} */}
 
         {/* <CustomButton
           buttonStyle={{ width: "50%" }}
-          onPress={pickNid}
-          // disabled={nidLoading || nidFaceDetectResult === "success"}
-          text="Upload NID image"
-          showIcon={nidFaceDetectResult === "success"}
+          onPress={pickLicense}
+          // disabled={licenseLoading || licenseFaceDetectResult === "success"}
+          text="Upload License image"
+          showIcon={licenseFaceDetectResult === "success"}
         /> */}
         <TouchableOpacity
           style={styles.readyButton}
-          onPress={pickNid}
+          onPress={pickLicense}
           activeOpacity={0.7}
         >
           <Text style={styles.readyButtonText}>Upload license</Text>
@@ -85,8 +84,6 @@ function VehicleRegistrationScreen() {
             NfcManager.cancelTechnologyRequest();
           }}
         />
-
-        <SafeAreaView style={styles.bgLight} />
       </View>
     </>
   );
@@ -95,7 +92,6 @@ function VehicleRegistrationScreen() {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    // justifyContent: "center",
   },
   pad: {
     padding: 20,

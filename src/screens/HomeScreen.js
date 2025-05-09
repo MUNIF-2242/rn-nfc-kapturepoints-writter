@@ -6,12 +6,15 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
 
 function HomeScreen({ navigation }) {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, { paddingTop: insets.top }]}>
       <View style={styles.circleContainer}>
         <TouchableOpacity
           style={[styles.circleButton, { backgroundColor: "#E74C3C" }]}
@@ -51,9 +54,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "white",
-    padding: width * 0.05,
     backgroundColor: "#E1F5FE",
+    padding: width * 0.05,
   },
   headerContainer: {
     alignItems: "center",

@@ -75,6 +75,7 @@ export const NfcProvider = ({ children }) => {
         body: JSON.stringify({
           phoneNumber: phoneNumber,
           tagId: tagId,
+          isCardActivated: false,
         }),
       });
 
