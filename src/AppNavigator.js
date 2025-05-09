@@ -19,28 +19,28 @@ function AppNavigator() {
       <RegistrationProvider>
         <NavigationContainer>
           <Stack.Navigator>
-            {/* <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{ headerShown: false }}
-          />
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{ headerShown: false }}
+            />
 
-          <Stack.Screen
-            name="Write"
-            component={WriteTagScreen}
-            options={{
-              headerTitle: "Creative Portal URL Set",
-              headerTitleAlign: "center",
-            }}
-          />
-          <Stack.Screen
-            name="UserRegistration"
-            component={UserRegistrationScreen}
-            options={{
-              headerTitle: "Creative Portal URL Set",
-              headerTitleAlign: "center",
-            }}
-          /> */}
+            <Stack.Screen
+              name="Write"
+              component={WriteTagScreen}
+              options={{
+                headerTitle: "Creative Portal URL Set",
+                headerTitleAlign: "center",
+              }}
+            />
+            <Stack.Screen
+              name="UserRegistration"
+              component={UserRegistrationScreen}
+              options={{
+                headerTitle: "Creative Portal URL Set",
+                headerTitleAlign: "center",
+              }}
+            />
             <Stack.Screen
               name="VehicleRegistration"
               component={VehicleRegistrationScreen}

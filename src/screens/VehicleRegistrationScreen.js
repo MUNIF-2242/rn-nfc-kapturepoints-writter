@@ -14,27 +14,25 @@ import { RegistrationContext } from "../context/RegistrationContext";
 
 function VehicleRegistrationScreen() {
   const androidPromptRef = useRef();
-
-  const [nidFaceDetectResult, setNidFaceDetectResult] = useState("");
-  const [porichoyVerificationResponse, setPorichoyVerificationResponse] =
-    useState("");
-
-  const [loading, setLoading] = useState(false);
   const [nidLoading, setNidLoading] = useState(false);
-  const [verifyLoading, setVerifyLoading] = useState(false);
 
-  const [name, setName] = useState("");
-  const [dob, setDob] = useState("");
-  const [nid, setNid] = useState("");
-  const { handleWriteTag, handleReadTag, handleFormatTag } =
-    useContext(NfcContext);
-  const { value, setValue } = useContext(NfcContext);
+  const { handleWriteTag } = useContext(NfcContext);
 
-  const { pickNid, nidImage } = useContext(RegistrationContext);
+  const { pickNid, nidImage, licenseData, handleActivateCard } =
+    useContext(RegistrationContext);
+
+  console.log("licenseData......... ", licenseData);
   return (
     <>
       <SafeAreaView />
       <View style={[styles.pad]}>
+        <TouchableOpacity
+          style={styles.readyButton}
+          onPress={() => handleWriteTag(androidPromptRef)}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.readyButtonText}>Configure NFC tag</Text>
+        </TouchableOpacity>
         <Text style={styles.label}>License image</Text>
 
         <View style={styles.widePlaceholderContainer}>
@@ -68,14 +66,7 @@ function VehicleRegistrationScreen() {
       <View style={styles.wrapper}>
         <TouchableOpacity
           style={styles.readyButton}
-          onPress={() => handleWriteTag(androidPromptRef)}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.readyButtonText}>Configure NFC tag</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.readyButton}
-          onPress={() => handleWriteTag(androidPromptRef)}
+          onPress={handleActivateCard}
           activeOpacity={0.7}
         >
           <Text style={styles.readyButtonText}>Register</Text>
